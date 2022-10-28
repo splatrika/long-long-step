@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Splatrika.LongLongStep.Model.LongStepCharacterStates
+namespace Splatrika.LongLongStep.Model.PlayerCharacterStates
 {
     public class StepState : State
     {
@@ -18,7 +18,7 @@ namespace Splatrika.LongLongStep.Model.LongStepCharacterStates
             StatesContext context,
             ILogger logger,
             IPhysicsService physicsService,
-            LongStepCharacterConfiguration configuration)
+            PlayerCharacterConfiguration configuration)
             : base(context)
         {
             _logger = logger;

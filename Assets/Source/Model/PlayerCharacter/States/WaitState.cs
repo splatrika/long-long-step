@@ -1,4 +1,4 @@
-namespace Splatrika.LongLongStep.Model.LongStepCharacterStates
+namespace Splatrika.LongLongStep.Model.PlayerCharacterStates
 {
     public class WaitState : State
     {
@@ -8,7 +8,7 @@ namespace Splatrika.LongLongStep.Model.LongStepCharacterStates
 
         public WaitState(
             StatesContext context,
-            LongStepCharacterConfiguration configuration)
+            PlayerCharacterConfiguration configuration)
             : base(context)
         {
             _waitTime = configuration.WaitTime;

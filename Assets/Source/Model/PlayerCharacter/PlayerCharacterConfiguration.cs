@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Splatrika.LongLongStep.Model
 {
-    public class LongStepCharacterConfiguration
+    public class PlayerCharacterConfiguration
     {
         public float StepDuration { get; set; }
         public float RotationSpeed { get; set; }

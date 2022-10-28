@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
 using Splatrika.LongLongStep.Architecture;
-using Splatrika.LongLongStep.Model.LongStepCharacterStates;
+using Splatrika.LongLongStep.Model.PlayerCharacterStates;
 using UnityEngine;
 
 namespace Splatrika.LongLongStep.Model
 {
-    public class LongStepCharacter : IUpdatable
+    public class PlayerCharacter : IUpdatable
     {
         public float? Progress { get; private set; }
         public Vector3 Position { get; private set; }
@@ -27,10 +27,10 @@ namespace Splatrika.LongLongStep.Model
         private IPhysicsService _physicsService { get; }
 
 
-        public LongStepCharacter(
+        public PlayerCharacter(
             ILogger logger,
             IPhysicsService physicsService,
-            LongStepCharacterConfiguration configuration)
+            PlayerCharacterConfiguration configuration)
         {
             _logger = logger;
             _physicsService = physicsService;
@@ -72,7 +72,7 @@ namespace Splatrika.LongLongStep.Model
             var state = _states.SingleOrDefault(x => x.GetType() == stateType);
             if (state == null)
             {
-                _logger.LogError(nameof(LongStepCharacter),
+                _logger.LogError(nameof(PlayerCharacter),
                     $"{nameof(SwitchState)}: " +
                     $"There is no state named {stateType.Name}");
                 return;
@@ -87,7 +87,7 @@ namespace Splatrika.LongLongStep.Model
             died = false;
             if (Lifes == 0)
             {
-                _logger.LogWarning(nameof(LongStepCharacter),
+                _logger.LogWarning(nameof(PlayerCharacter),
                     $"{nameof(Damage)}: " +
                     $"The character is already died, but you still trying " +
                     $"to damage them");
@@ -126,7 +126,7 @@ namespace Splatrika.LongLongStep.Model
 
         private void CreateStates(
             StatesContext context,
-            LongStepCharacterConfiguration configuration)
+            PlayerCharacterConfiguration configuration)
         {
             _states = new State[]
             {

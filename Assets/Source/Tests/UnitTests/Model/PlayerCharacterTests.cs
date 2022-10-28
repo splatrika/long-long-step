@@ -7,8 +7,8 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
 {
     public class LongStepCharacterTests
     {
-        private LongStepCharacterConfiguration _configuration;
-        private LongStepCharacter _character;
+        private PlayerCharacterConfiguration _configuration;
+        private PlayerCharacter _character;
         private Mock<IPhysicsService> _physicsServiceMock;
         private ILogger _fakeLogger;
 
@@ -16,7 +16,7 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
         [SetUp]
         public void Init()
         {
-            _configuration = new LongStepCharacterConfiguration
+            _configuration = new PlayerCharacterConfiguration
             {
                 StepDuration = 5,
                 RotationSpeed = 1,
@@ -27,7 +27,7 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
             };
             _physicsServiceMock = new Mock<IPhysicsService>();
             _fakeLogger = new Mock<ILogger>().Object;
-            _character = new LongStepCharacter(
+            _character = new PlayerCharacter(
                 _fakeLogger, _physicsServiceMock.Object, _configuration);
         }
 
@@ -195,13 +195,13 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
         }
 
 
-        private void WaitForStep(LongStepCharacter character)
+        private void WaitForStep(PlayerCharacter character)
         {
             character.Update(_configuration.WaitTime);
         }
 
 
-        private void WaitForFall(LongStepCharacter character)
+        private void WaitForFall(PlayerCharacter character)
         {
             _physicsServiceMock.Setup(x => x.HasGround(It.IsAny<Vector3>()))
                 .Returns(false);
@@ -213,7 +213,7 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
         private bool TryCreateDied()
         {
             _configuration.Lifes = 1;
-            _character = new LongStepCharacter(
+            _character = new PlayerCharacter(
                 _fakeLogger, _physicsServiceMock.Object, _configuration);
             var died = false;
             _character.Died += () => died = true;

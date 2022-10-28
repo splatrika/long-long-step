@@ -1,4 +1,4 @@
-namespace Splatrika.LongLongStep.Model.LongStepCharacterStates
+namespace Splatrika.LongLongStep.Model.PlayerCharacterStates
 {
     public class FallState : State
     {
@@ -8,7 +8,7 @@ namespace Splatrika.LongLongStep.Model.LongStepCharacterStates
 
         public FallState(
             StatesContext context,
-            LongStepCharacterConfiguration configuration)
+            PlayerCharacterConfiguration configuration)
             : base(context)
         {
             _fallTime = configuration.FallTime;

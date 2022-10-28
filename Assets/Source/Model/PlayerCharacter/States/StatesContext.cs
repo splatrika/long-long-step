@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Splatrika.LongLongStep.Model.LongStepCharacterStates
+namespace Splatrika.LongLongStep.Model.PlayerCharacterStates
 {
     public class StatesContext
     {

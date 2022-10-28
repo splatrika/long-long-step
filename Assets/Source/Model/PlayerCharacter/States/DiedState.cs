@@ -1,4 +1,4 @@
-namespace Splatrika.LongLongStep.Model.LongStepCharacterStates
+namespace Splatrika.LongLongStep.Model.PlayerCharacterStates
 {
     public class DiedState : State
     {
