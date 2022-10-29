@@ -1,21 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Splatrika.LongLongStep.Architecture
 {
-    public class IComponentAdapter : MonoBehaviour
+    public interface IComponentAdapter
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
     }
 }
