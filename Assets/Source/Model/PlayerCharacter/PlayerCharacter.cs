@@ -25,14 +25,17 @@ namespace Splatrika.LongLongStep.Model
         private State[] _states;
         private ILogger _logger { get; }
         private IPhysicsService _physicsService { get; }
+        private IPauseService _pauseService { get; }
 
 
         public PlayerCharacter(
             ILogger logger,
+            IPauseService pauseService,
             IPhysicsService physicsService,
             PlayerCharacterConfiguration configuration)
         {
             _logger = logger;
+            _pauseService = pauseService;
             _physicsService = physicsService;
 
             var statesContext = new StatesContext(
@@ -51,6 +54,10 @@ namespace Splatrika.LongLongStep.Model
 
         public void Update(float deltaTime)
         {
+            if (_pauseService.IsPaused)
+            {
+                return;
+            }
             _current.Update(deltaTime);
         }
 

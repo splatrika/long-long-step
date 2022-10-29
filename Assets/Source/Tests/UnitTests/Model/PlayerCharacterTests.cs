@@ -10,6 +10,7 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
         private PlayerCharacterConfiguration _configuration;
         private PlayerCharacter _character;
         private Mock<IPhysicsService> _physicsServiceMock;
+        private Mock<IPauseService> _pauseSerivceMock;
         private ILogger _fakeLogger;
 
 
@@ -27,8 +28,11 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
             };
             _physicsServiceMock = new Mock<IPhysicsService>();
             _fakeLogger = new Mock<ILogger>().Object;
+            _pauseSerivceMock = new Mock<IPauseService>();
+
             _character = new PlayerCharacter(
-                _fakeLogger, _physicsServiceMock.Object, _configuration);
+                _fakeLogger, _pauseSerivceMock.Object,
+                _physicsServiceMock.Object, _configuration);
         }
 
 
@@ -195,6 +199,56 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
         }
 
 
+        [Test]
+        public void ShouldNotWaitWhenPaused()
+        {
+            Pause();
+            var stepStarted = false;
+            _character.StepStarted += () => stepStarted = true;
+            WaitForStep(_character);
+            Assert.False(stepStarted);
+        }
+
+
+        [Test]
+        public void ShouldNotRotateWhenStepStartedAndPaused()
+        {
+            WaitForStep(_character);
+            Pause();
+            var lastTarget = _character.StepTarget;
+            _character.StartRotation(1);
+            _character.Update(_configuration.StepDuration / 2);
+            Assert.AreEqual(lastTarget, _character.StepTarget);
+        }
+
+
+        [Test]
+        public void ShouldNotStepWhenPaused()
+        {
+            WaitForStep(_character);
+            Pause();
+            var falled = false;
+            var wait = false;
+            _character.Falled += () => falled = true;
+            _character.Wait += () => wait = true;
+            _character.Update(_configuration.StepDuration);
+            Assert.False(falled);
+            Assert.False(wait);
+        }
+
+
+        [Test]
+        public void ShouldNotFallWhenPaused()
+        {
+            WaitForFall(_character);
+            Pause();
+            var stepStarted = false;
+            _character.StepStarted += () => stepStarted = true;
+            _character.Update(_configuration.FallTime);
+            Assert.False(stepStarted);
+        }
+
+
         private void WaitForStep(PlayerCharacter character)
         {
             character.Update(_configuration.WaitTime);
@@ -214,12 +268,21 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
         {
             _configuration.Lifes = 1;
             _character = new PlayerCharacter(
-                _fakeLogger, _physicsServiceMock.Object, _configuration);
+                _fakeLogger, _pauseSerivceMock.Object,
+                _physicsServiceMock.Object, _configuration);
             var died = false;
             _character.Died += () => died = true;
             WaitForFall(_character);
             _character.Update(_configuration.FallTime);
             return died;
+        }
+
+
+        private void Pause()
+        {
+            _pauseSerivceMock.SetupGet(x => x.IsPaused)
+                .Returns(true);
+            _pauseSerivceMock.Raise(x => x.Paused += null);
         }
     }
 }
