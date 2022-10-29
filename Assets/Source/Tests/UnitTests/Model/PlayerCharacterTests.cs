@@ -11,6 +11,7 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
         private PlayerCharacter _character;
         private Mock<IPhysicsService> _physicsServiceMock;
         private Mock<IPauseService> _pauseSerivceMock;
+        private Mock<IGround> _groundMock;
         private ILogger _fakeLogger;
 
 
@@ -29,6 +30,7 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
             _physicsServiceMock = new Mock<IPhysicsService>();
             _fakeLogger = new Mock<ILogger>().Object;
             _pauseSerivceMock = new Mock<IPauseService>();
+            _groundMock = new Mock<IGround>();
 
             _character = new PlayerCharacter(
                 _fakeLogger, _pauseSerivceMock.Object,
@@ -52,7 +54,9 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
             WaitForStep(_character);
             var waitStarted = false;
             _character.Wait += () => waitStarted = true;
-            _physicsServiceMock.Setup(x => x.HasGround(It.IsAny<Vector3>()))
+            var fakeGround = _groundMock.Object;
+            _physicsServiceMock.Setup(
+                x => x.HasGround(It.IsAny<Vector3>(), out fakeGround))
                 .Returns(true);
             _character.Update(_configuration.StepDuration);
             Assert.True(waitStarted);
@@ -65,7 +69,9 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
             WaitForStep(_character);
             var falled = false;
             _character.Falled += () => falled = true;
-            _physicsServiceMock.Setup(x => x.HasGround(It.IsAny<Vector3>()))
+            var fakeGround = _groundMock.Object;
+            _physicsServiceMock.Setup(
+                x => x.HasGround(It.IsAny<Vector3>(), out fakeGround))
                 .Returns(false);
             _character.Update(_configuration.StepDuration);
             Assert.True(falled);
@@ -141,21 +147,6 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
         {
             TryCreateDied();
             Assert.Null(_character.StepTarget);
-        }
-
-
-        [Test]
-        public void ShouldMoveAfterStep()
-        {
-            WaitForStep(_character);
-            _physicsServiceMock.Setup(x => x.HasGround(It.IsAny<Vector3>()))
-                .Returns(true);
-            var stepTarget = _character.StepTarget;
-            Vector3? newPosition = null;
-            _character.Moved += position => newPosition = position;
-            _character.Update(_configuration.StepDuration);
-            Assert.AreEqual(stepTarget, _character.Position);
-            Assert.AreEqual(_character.Position, newPosition);
         }
 
 
@@ -249,6 +240,21 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
         }
 
 
+        [Test]
+        public void ShouldMagnetToTheGroundAnchorAfterStep()
+        {
+            _groundMock.SetupGet(x => x.Anchor)
+                .Returns(new Vector3(1, 2, -2));
+            var fakeGround = _groundMock.Object;
+            _physicsServiceMock.Setup(
+                x => x.HasGround(It.IsAny<Vector3>(), out fakeGround))
+                .Returns(true);
+            WaitForStep(_character);
+            _character.Update(_configuration.StepDuration);
+            Assert.AreEqual(fakeGround.Anchor, _character.Position);
+        }
+
+
         private void WaitForStep(PlayerCharacter character)
         {
             character.Update(_configuration.WaitTime);
@@ -257,7 +263,9 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
 
         private void WaitForFall(PlayerCharacter character)
         {
-            _physicsServiceMock.Setup(x => x.HasGround(It.IsAny<Vector3>()))
+            var fakeGround = _groundMock.Object;
+            _physicsServiceMock.Setup(
+                x => x.HasGround(It.IsAny<Vector3>(), out fakeGround))
                 .Returns(false);
             character.Update(_configuration.WaitTime);
             character.Update(_configuration.StepDuration);

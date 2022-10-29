@@ -12,6 +12,7 @@ namespace Splatrika.LongLongStep.Model.PlayerCharacterStates
         private float _rotationDirection;
         private ILogger _logger { get; }
         private IPhysicsService _physicsService { get; }
+        private Vector3? _previousAnchor;
 
 
         public StepState(
@@ -28,6 +29,8 @@ namespace Splatrika.LongLongStep.Model.PlayerCharacterStates
             _stepDuration = configuration.StepDuration;
             _rotationSpeed = configuration.RotationSpeed;
             _stepLength = configuration.StepLength;
+
+            _previousAnchor = null;
         }
 
 
@@ -48,19 +51,27 @@ namespace Splatrika.LongLongStep.Model.PlayerCharacterStates
                 _rotation += _rotationDirection * _rotationSpeed * deltaTime;
                 UpdateStepTarget();
             }
+            else if (Context.Ground?.Anchor != _previousAnchor)
+            {
+                _previousAnchor = Context.Ground?.Anchor;
+                UpdateStepTarget();
+            }
             _timeLeft -= deltaTime;
             Context.Progress = 1 - _timeLeft / _stepDuration;
             if (_timeLeft <= 0)
             {
-                if (!_physicsService.HasGround((Vector3)Context.StepTarget))
+                if (_physicsService.HasGround(
+                    (Vector3)Context.StepTarget, out IGround ground))
+                {
+                    Context.Ground = ground;
+                    Context.StepTarget = null;
+                    Context.SwitchState<WaitState>();
+                }
+                else
                 {
                     Context.StepTarget = null;
                     Context.SwitchState<FallState>();
-                    return;
                 }
-                Context.Position = (Vector3)Context.StepTarget;
-                Context.StepTarget = null;
-                Context.SwitchState<WaitState>();
             }
         }
 

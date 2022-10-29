@@ -4,6 +4,6 @@ namespace Splatrika.LongLongStep.Model
 {
     public interface IPhysicsService
     {
-        bool HasGround(Vector3 point);
+        bool HasGround(Vector3 point, out IGround ground);
     }
 }

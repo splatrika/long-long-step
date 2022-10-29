@@ -21,6 +21,7 @@ namespace Splatrika.LongLongStep.Model
         public event Action<Vector3> Moved;
         public event Action<Vector3?> StepTargetUpdated;
 
+        private IGround _ground;
         private State _current;
         private State[] _states;
         private ILogger _logger { get; }
@@ -39,8 +40,10 @@ namespace Splatrika.LongLongStep.Model
             _physicsService = physicsService;
 
             var statesContext = new StatesContext(
-                SwitchState, SetProgress, SetPosition, SetStepTarget, Damage,
+                SwitchState, SetProgress, SetPosition, SetStepTarget,
+                SetGround, Damage,
                 () => Progress, () => Position, () => StepTarget, () => Lifes,
+                () => _ground,
                 () => StepStarted?.Invoke(), () => Wait?.Invoke(),
                 () => Falled?.Invoke());
 
@@ -57,6 +60,10 @@ namespace Splatrika.LongLongStep.Model
             if (_pauseService.IsPaused)
             {
                 return;
+            }
+            if (_ground != null)
+            {
+                SetPosition(_ground.Anchor);
             }
             _current.Update(deltaTime);
         }
@@ -128,6 +135,16 @@ namespace Splatrika.LongLongStep.Model
         {
             StepTarget = value;
             StepTargetUpdated?.Invoke(value);
+        }
+
+
+        private void SetGround(IGround ground)
+        {
+            _ground = ground;
+            if (_ground != null)
+            {
+                SetPosition(_ground.Anchor);
+            }
         }
 
 
