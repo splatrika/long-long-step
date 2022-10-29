@@ -87,7 +87,7 @@ namespace Splatrika.LongLongStep.Model.PlayerCharacterStates
         {
             var direction = new Vector3(
                 Mathf.Sin(_rotation),
-                Context.Position.y,
+                0,
                 Mathf.Cos(_rotation));
             Context.StepTarget = Context.Position + direction * _stepLength;
         }
