@@ -36,6 +36,7 @@ namespace Splatrika.LongLongStep.Model.PlayerCharacterStates
             _timeLeft = _stepDuration;
             StopRotation();
             UpdateStepTarget();
+            Context.Progress = 0;
             Context.RaiseStartStep();
         }
 

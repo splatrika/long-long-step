@@ -18,6 +18,7 @@ namespace Splatrika.LongLongStep.Model.PlayerCharacterStates
         public override void OnStart()
         {
             _timeLeft = _fallTime;
+            Context.Progress = 0;
             Context.RaiseFalled();
         }
 
