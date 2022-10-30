@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Splatrika.LongLongStep.Presenter.PlayerCharacterPresenterStates
@@ -15,11 +13,6 @@ namespace Splatrika.LongLongStep.Presenter.PlayerCharacterPresenterStates
         {
             Context.SteppingFoot++;
             Context.SteppingFoot %= Context.Foots.Length;
-
-            //var stayingFoot = Context.Foots.Length - Context.SteppingFoot - 1;
-            //Context.Foots[stayingFoot].position = Context.Model.Position;
-
-
             Context.PreviousPosition = Context.Model.Position;
             Context.StepTarget.gameObject.SetActive(true);
         }
@@ -36,6 +29,12 @@ namespace Splatrika.LongLongStep.Presenter.PlayerCharacterPresenterStates
         }
 
 
+        public override void OnMoved(Vector3 position)
+        {
+            Context.Foots[Context.StayingFoot].position = position;
+        }
+
+
         public override sealed void OnFalled()
         {
             Context.SwitchState<FallState>();
@@ -48,12 +47,6 @@ namespace Splatrika.LongLongStep.Presenter.PlayerCharacterPresenterStates
             Context.Foots[Context.SteppingFoot].position =
                 Context.Model.Position;
             Context.SwitchState<WaitState>();
-        }
-
-
-        public override sealed void OnStepTargetUpdated(Vector3? value)
-        {
-            Context.StepTarget.position = (Vector3)value;
         }
     }
 }

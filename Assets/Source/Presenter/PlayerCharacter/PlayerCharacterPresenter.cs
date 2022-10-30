@@ -53,6 +53,8 @@ namespace Splatrika.LongLongStep.Presenter
             model.Wait += OnWait;
             model.Falled += OnFalled;
             model.Died += OnDied;
+            model.StepTargetUpdated += OnStepTargetUpdated;
+            model.Moved += OnMoved;
         }
 
 
@@ -62,6 +64,8 @@ namespace Splatrika.LongLongStep.Presenter
             TypedModel.Wait -= OnWait;
             TypedModel.Falled -= OnFalled;
             TypedModel.Died -= OnDied;
+            TypedModel.StepTargetUpdated -= OnStepTargetUpdated;
+            TypedModel.Moved -= OnMoved;
         }
 
 
@@ -113,6 +117,12 @@ namespace Splatrika.LongLongStep.Presenter
         private void OnStepTargetUpdated(Vector3? value)
         {
             _current.OnStepTargetUpdated(value);
+        }
+
+
+        private void OnMoved(Vector3 position)
+        {
+            _current.OnMoved(position);
         }
 
 

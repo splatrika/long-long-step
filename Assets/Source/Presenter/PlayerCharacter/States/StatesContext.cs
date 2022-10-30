@@ -14,6 +14,7 @@ namespace Splatrika.LongLongStep.Presenter.PlayerCharacterPresenterStates
             get => _getSteppingFoot.Invoke();
             set => _setSteppingFoot.Invoke(value);
         }
+        public int StayingFoot => Foots.Length - SteppingFoot - 1;
         public Vector3 PreviousPosition { get; set; }
 
         private Action<Type> _switchState;

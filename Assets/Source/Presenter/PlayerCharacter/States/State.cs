@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Splatrika.LongLongStep.Presenter.PlayerCharacterPresenterStates
@@ -15,6 +13,7 @@ namespace Splatrika.LongLongStep.Presenter.PlayerCharacterPresenterStates
         public virtual void OnFalled() { }
         public virtual void OnDied() { }
         public virtual void OnStepTargetUpdated(Vector3? value) { }
+        public virtual void OnMoved(Vector3 position) { }
 
 
         public State(StatesContext context)
