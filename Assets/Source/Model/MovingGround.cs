@@ -9,7 +9,7 @@ namespace Splatrika.LongLongStep.Model
         public Vector3 Anchor { get; private set; }
         public Vector3 PointA { get; }
         public Vector3 PointB { get; }
-        public float Speed { get; }
+        public float MovementDuration { get; }
         public float WaitTime { get; }
 
         private IPauseService _pauseService { get; }
@@ -17,7 +17,6 @@ namespace Splatrika.LongLongStep.Model
         private float _position;
         private float _positionDirection;
         private float _positionSpeed;
-        private float _pointsDistance;
 
 
         public MovingGround(
@@ -30,13 +29,13 @@ namespace Splatrika.LongLongStep.Model
             Anchor = configuration.PointA;
             PointA = configuration.PointA;
             PointB = configuration.PointB;
-            Speed = configuration.Speed;
+            MovementDuration = configuration.MovementDuration;
             WaitTime = configuration.WaitTime;
 
             _position = 0;
             _positionDirection = 1;
-            _pointsDistance = Vector3.Distance(PointA, PointB);
-            _positionSpeed = Speed / _pointsDistance;
+            _positionSpeed = 1 / MovementDuration;
+            _waitTimeLeft = configuration.WaitAtStart ? WaitTime : 0;
         }
 
 

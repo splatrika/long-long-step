@@ -21,14 +21,12 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
                 pointA: Vector3.right,
                 pointB: Vector3.left,
                 speed: 10,
-                waitTime: 5);
+                waitTime: 5,
+                waitAtStart: false);
             _ground = new MovingGround(_pauseServiceMock.Object,
                 _configuration);
 
-            _timeToMove =
-                Vector3.Distance(_configuration.PointA, _configuration.PointB) /
-                _configuration.Speed;
-
+            _timeToMove = _configuration.MovementDuration;
         }
 
 
@@ -86,6 +84,19 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
             _ground.Update(_configuration.WaitTime);
             _ground.Update(_timeToMove);
             Assert.AreEqual(_configuration.PointA, _ground.Anchor);
+        }
+
+
+        [Test]
+        public void ShouldWaitAtStartIfItIsEnabled()
+        {
+            _configuration.WaitAtStart = true;
+            _ground = new MovingGround(
+                _pauseServiceMock.Object, _configuration);
+            var lastAnchor = _ground.Anchor;
+            _ground.Update(_configuration.WaitTime / 2);
+            _ground.Update(_configuration.WaitTime / 2);
+            Assert.AreEqual(lastAnchor, _ground.Anchor);
         }
 
 
