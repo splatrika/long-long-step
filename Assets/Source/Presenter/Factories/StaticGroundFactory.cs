@@ -5,6 +5,7 @@ using Zenject;
 
 namespace Splatrika.LongLongStep.Presenter
 {
+    [LevelObject]
     public class StaticGroundFactory
         : SceneObjectFactory<StaticGround, StaticGroundPresenter>
     {

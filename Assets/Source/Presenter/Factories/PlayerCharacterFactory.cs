@@ -5,6 +5,7 @@ using Zenject;
 
 namespace Splatrika.LongLongStep.Presenter
 {
+    [LevelObject]
     public class PlayerCharacterFactory
         : SceneObjectFactory<PlayerCharacter, PlayerCharacterPresenter>
     {

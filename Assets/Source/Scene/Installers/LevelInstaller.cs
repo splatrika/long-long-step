@@ -1,6 +1,8 @@
+using System;
+using System.Linq;
+using System.Reflection;
 using Splatrika.LongLongStep.Architecture;
 using Splatrika.LongLongStep.Model;
-using UnityEngine;
 using Zenject;
 
 namespace Splatrika.LongLongStep.Scene
@@ -24,18 +26,25 @@ namespace Splatrika.LongLongStep.Scene
         public override void Start()
         {
             base.Start();
-            // ui initialization will be here
             CreateSceneObjects();
         }
 
 
         private void CreateSceneObjects()
         {
+            CallFactoriesWithAttribute<LevelObjectAttribute>();
+        }
+
+        private void CallFactoriesWithAttribute<T>() where T : Attribute
+        {
             var factories = FindObjectsOfType<SceneObjectFactory>(
                 includeInactive: false);
             foreach (var factory in factories)
             {
-                factory.Create();
+                if (factory.GetType().GetCustomAttributes().Any(x => x is T))
+                {
+                    factory.Create();
+                }
             }
         }
     }
