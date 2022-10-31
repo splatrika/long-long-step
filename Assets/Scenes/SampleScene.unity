@@ -367,10 +367,7 @@ MonoBehaviour:
   _firstFoot: {fileID: 1220118748}
   _secondFoot: {fileID: 2090752174}
   _stepTarget: {fileID: 511844465}
-  _stepDuration: 2.5
   _rotationSpeed: 2
-  _waitTime: 1
-  _fallTime: 1
   _stepLength: 3
   _lifes: 10
 --- !u!4 &593938142
@@ -806,6 +803,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be586ce877f1d4094a9c31033d1879cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _actionTime: 2
+  _waitTime: 1
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
