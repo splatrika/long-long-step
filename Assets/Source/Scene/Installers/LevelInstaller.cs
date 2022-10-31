@@ -9,6 +9,10 @@ namespace Splatrika.LongLongStep.Scene
         {
             Container.BindInterfacesTo<PauseService>()
                 .AsSingle();
+
+            Container
+                .BindInterfacesTo<ObjectProviderService<IPlayerCharacter>>()
+                .AsSingle();
         }
     }
 }
