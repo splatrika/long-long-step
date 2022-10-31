@@ -27,6 +27,7 @@ namespace Splatrika.LongLongStep.Scene
         {
             base.Start();
             CreateSceneObjects();
+            CreateGUI();
         }
 
 
@@ -34,6 +35,13 @@ namespace Splatrika.LongLongStep.Scene
         {
             CallFactoriesWithAttribute<LevelObjectAttribute>();
         }
+
+
+        private void CreateGUI()
+        {
+            CallFactoriesWithAttribute<GUIAttribute>();
+        }
+
 
         private void CallFactoriesWithAttribute<T>() where T : Attribute
         {
