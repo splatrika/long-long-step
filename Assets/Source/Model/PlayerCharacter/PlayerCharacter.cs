@@ -34,6 +34,7 @@ namespace Splatrika.LongLongStep.Model
             ILogger logger,
             IPauseService pauseService,
             IPhysicsService physicsService,
+            IRegisterObjectService<IPlayerCharacter> registerService,
             PlayerCharacterConfiguration configuration)
         {
             _logger = logger;
@@ -53,6 +54,8 @@ namespace Splatrika.LongLongStep.Model
 
             Position = configuration.Position;
             Lifes = configuration.Lifes;
+
+            registerService.Register(this);
         }
 
 
