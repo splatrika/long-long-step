@@ -46,6 +46,7 @@ namespace Splatrika.LongLongStep.Model.PlayerCharacterStates
         private Action _raiseStartStep;
         private Action _raiseWait;
         private Action _raiseFalled;
+        private Action _raiseHappy;
 
 
         public StatesContext(
@@ -62,7 +63,8 @@ namespace Splatrika.LongLongStep.Model.PlayerCharacterStates
             Func<IGround> getGround,
             Action raiseStartStep,
             Action raiseWait,
-            Action raiseFalled)
+            Action raiseFalled,
+            Action raiseHappy)
         {
             _switchState = switchState;
             _setProgess = setProgess;
@@ -81,6 +83,7 @@ namespace Splatrika.LongLongStep.Model.PlayerCharacterStates
             _raiseStartStep = raiseStartStep;
             _raiseWait = raiseWait;
             _raiseFalled = raiseFalled;
+            _raiseHappy = raiseHappy;
         }
 
 
@@ -111,6 +114,12 @@ namespace Splatrika.LongLongStep.Model.PlayerCharacterStates
         public void RaiseFalled()
         {
             _raiseFalled.Invoke();
+        }
+
+
+        public void RaiseHappy()
+        {
+            _raiseHappy.Invoke();
         }
     }
 }

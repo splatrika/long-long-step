@@ -275,6 +275,35 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
         }
 
 
+        [Test]
+        public void ShouldBeHappyAfterTouchGoalGround()
+        {
+            SetupGoalGround();
+
+            WaitForStep(_character);
+            var happy = false;
+            _character.Happy += () => happy = true;
+            _character.Update(_configuration.StepDuration);
+            _character.Update(_configuration.WaitTime);
+
+            Assert.True(happy);
+        }
+
+
+        [Test]
+        public void ShouldNotStartStepAfterTouchGoalGround()
+        {
+            SetupGoalGround();
+
+            WaitForStep(_character);
+            var stepStarted = false;
+            _character.StepStarted += () => stepStarted = true;
+            _character.Update(_configuration.StepDuration);
+            _character.Update(_configuration.WaitTime);
+            Assert.False(stepStarted);
+        }
+
+
         private void WaitForStep(PlayerCharacter character)
         {
             character.Update(_configuration.WaitTime);
@@ -312,6 +341,15 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
             _pauseSerivceMock.SetupGet(x => x.IsPaused)
                 .Returns(true);
             _pauseSerivceMock.Raise(x => x.Paused += null);
+        }
+
+
+        private void SetupGoalGround()
+        {
+            var fakeGround = new Mock<IGoalGround>().Object as IGround;
+            _physicsServiceMock.Setup(
+                x => x.HasGround(It.IsAny<Vector3>(), out fakeGround))
+                .Returns(true);
         }
     }
 }

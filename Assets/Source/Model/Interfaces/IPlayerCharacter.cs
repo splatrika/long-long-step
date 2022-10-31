@@ -18,6 +18,7 @@ namespace Splatrika.LongLongStep.Model
         event Action<Vector3> Moved;
         event Action<Vector3?> StepTargetUpdated;
         event Action<IGround> TouchedGround;
+        event Action Happy;
 
 
         void StartRotation(int direction);

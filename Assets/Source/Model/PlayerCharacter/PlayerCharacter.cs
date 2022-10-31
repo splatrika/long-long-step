@@ -21,6 +21,7 @@ namespace Splatrika.LongLongStep.Model
         public event Action<Vector3> Moved;
         public event Action<Vector3?> StepTargetUpdated;
         public event Action<IGround> TouchedGround;
+        public event Action Happy;
 
         private IGround _ground;
         private State _current;
@@ -47,7 +48,7 @@ namespace Splatrika.LongLongStep.Model
                 () => Progress, () => Position, () => StepTarget, () => Lifes,
                 () => _ground,
                 () => StepStarted?.Invoke(), () => Wait?.Invoke(),
-                () => Falled?.Invoke());
+                () => Falled?.Invoke(), () => Happy?.Invoke());
 
             CreateStates(statesContext, configuration);
             statesContext.SwitchState<WaitState>();
@@ -162,7 +163,8 @@ namespace Splatrika.LongLongStep.Model
                 new WaitState(context, configuration),
                 new StepState(context, _logger, _physicsService, configuration),
                 new FallState(context, configuration),
-                new DiedState(context)
+                new DiedState(context),
+                new HappyState(context)
             };
         }
     }

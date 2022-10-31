@@ -29,6 +29,11 @@ namespace Splatrika.LongLongStep.Model.PlayerCharacterStates
             Context.Progress = 1 - _timeLeft / _waitTime;
             if (_timeLeft <= 0)
             {
+                if (Context.Ground is IGoalGround)
+                {
+                    Context.SwitchState<HappyState>();
+                    return;
+                }
                 Context.SwitchState<StepState>();
             }
         }
