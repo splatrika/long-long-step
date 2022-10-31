@@ -74,18 +74,6 @@ namespace Splatrika.LongLongStep.Presenter
 #if DEBUG
             UpdateDebug();
 #endif
-            if (Input.GetKeyDown("a"))
-            {
-                TypedModel.StartRotation(-1);
-            }
-            if (Input.GetKeyDown("d"))
-            {
-                TypedModel.StartRotation(1);
-            }
-            if (Input.GetKeyUp("a") || Input.GetKeyUp("d"))
-            {
-                TypedModel.StopRotation();
-            }
             _current.OnUpdate(deltaTime);
         }
 
