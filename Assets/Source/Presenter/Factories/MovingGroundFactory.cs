@@ -24,11 +24,14 @@ namespace Splatrika.LongLongStep.Presenter
         [SerializeField]
         private Transform _pointB;
 
-        [SerializeField]
-        private float _waitTime;
+        private LevelConfiguration _levelConfiguration;
 
-        [SerializeField]
-        private float _movementDuration;
+
+        [Inject]
+        public void Init(LevelConfiguration levelConfiguration)
+        {
+            _levelConfiguration = levelConfiguration;
+        }
 
 
         protected override void AdditionalBindings(DiContainer container)
@@ -36,8 +39,8 @@ namespace Splatrika.LongLongStep.Presenter
             var configuration = new MovingGroundConfiguration(
                 pointA: _pointA.position,
                 pointB: _pointB.position,
-                speed: _movementDuration,
-                waitTime: _waitTime,
+                movementDuration: _levelConfiguration.ActionTime,
+                waitTime: _levelConfiguration.WaitTime,
                 waitAtStart: true);
             container.Bind<MovingGroundConfiguration>()
                 .FromInstance(configuration);

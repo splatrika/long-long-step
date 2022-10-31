@@ -20,7 +20,7 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
             _configuration = new MovingGroundConfiguration(
                 pointA: Vector3.right,
                 pointB: Vector3.left,
-                speed: 10,
+                movementDuration: 10,
                 waitTime: 5,
                 waitAtStart: false);
             _ground = new MovingGround(_pauseServiceMock.Object,

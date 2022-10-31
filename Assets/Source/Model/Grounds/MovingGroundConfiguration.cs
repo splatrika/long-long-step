@@ -14,13 +14,13 @@ namespace Splatrika.LongLongStep.Model
         public MovingGroundConfiguration(
             Vector3 pointA,
             Vector3 pointB,
-            float speed,
+            float movementDuration,
             float waitTime,
             bool waitAtStart)
         {
             PointA = pointA;
             PointB = pointB;
-            MovementDuration = speed;
+            MovementDuration = movementDuration;
             WaitTime = waitTime;
             WaitAtStart = waitAtStart;
         }

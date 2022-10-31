@@ -23,16 +23,7 @@ namespace Splatrika.LongLongStep.Presenter
         [Header("Model")]
 
         [SerializeField]
-        private float _stepDuration;
-
-        [SerializeField]
         private float _rotationSpeed;
-
-        [SerializeField]
-        private float _waitTime;
-
-        [SerializeField]
-        private float _fallTime;
 
         [SerializeField]
         private float _stepLength;
@@ -41,12 +32,14 @@ namespace Splatrika.LongLongStep.Presenter
         private int _lifes;
 
         private ILogger _logger;
+        private LevelConfiguration _levelConfiguration;
 
 
         [Inject]
-        public void Init(ILogger logger)
+        public void Init(ILogger logger, LevelConfiguration levelConfiguration)
         {
             _logger = logger;
+            _levelConfiguration = levelConfiguration;
         }
 
 
@@ -60,10 +53,10 @@ namespace Splatrika.LongLongStep.Presenter
         {
             var configuration = new PlayerCharacterConfiguration
             {
-                StepDuration = _stepDuration,
+                StepDuration = _levelConfiguration.ActionTime,
                 RotationSpeed = _rotationSpeed,
-                WaitTime = _waitTime,
-                FallTime = _fallTime,
+                WaitTime = _levelConfiguration.WaitTime,
+                FallTime = _levelConfiguration.WaitTime,
                 StepLength = _stepLength,
                 Lifes = _lifes,
                 Position = transform.position
