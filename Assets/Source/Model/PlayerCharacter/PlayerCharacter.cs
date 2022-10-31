@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Splatrika.LongLongStep.Model
 {
-    public class PlayerCharacter : IUpdatable
+    public class PlayerCharacter : IPlayerCharacter, IUpdatable
     {
         public float? Progress { get; private set; }
         public Vector3 Position { get; private set; }
@@ -20,6 +20,7 @@ namespace Splatrika.LongLongStep.Model
         public event Action Died;
         public event Action<Vector3> Moved;
         public event Action<Vector3?> StepTargetUpdated;
+        public event Action<IGround> TouchedGround;
 
         private IGround _ground;
         private State _current;
@@ -145,6 +146,7 @@ namespace Splatrika.LongLongStep.Model
             {
                 SetPosition(_ground.Anchor);
             }
+            TouchedGround?.Invoke(ground);
         }
 
 
