@@ -16,6 +16,10 @@ namespace Splatrika.LongLongStep.Scene
                 .BindInterfacesTo<ObjectProviderService<IPlayerCharacter>>()
                 .AsSingle();
 
+            Container.BindInterfacesTo<Level>()
+                .AsSingle();
+        }
+
 
         public override void Start()
         {
