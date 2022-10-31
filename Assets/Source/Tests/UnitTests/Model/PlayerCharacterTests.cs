@@ -12,6 +12,7 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
         private Mock<IPhysicsService> _physicsServiceMock;
         private Mock<IPauseService> _pauseSerivceMock;
         private Mock<IGround> _groundMock;
+        private IRegisterObjectService<IPlayerCharacter> _registerService;
         private ILogger _fakeLogger;
 
 
@@ -31,10 +32,13 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
             _fakeLogger = new Mock<ILogger>().Object;
             _pauseSerivceMock = new Mock<IPauseService>();
             _groundMock = new Mock<IGround>();
+            _registerService =
+                new Mock<IRegisterObjectService<IPlayerCharacter>>().Object;
 
             _character = new PlayerCharacter(
                 _fakeLogger, _pauseSerivceMock.Object,
-                _physicsServiceMock.Object, _configuration);
+                _physicsServiceMock.Object, _registerService,
+                _configuration);
         }
 
 
@@ -240,6 +244,22 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
         }
 
 
+
+        [Test]
+        public void ShouldTouchGround()
+        {
+            WaitForStep(_character);
+            var fakeGround = _groundMock.Object;
+            _physicsServiceMock.Setup(
+                x => x.HasGround(It.IsAny<Vector3>(), out fakeGround))
+                .Returns(true);
+            IGround touched = null;
+            _character.TouchedGround += ground => touched = ground;
+            _character.Update(_configuration.StepDuration);
+            Assert.AreEqual(fakeGround, touched);
+        }
+
+
         [Test]
         public void ShouldMagnetToTheGroundAnchorAfterStep()
         {
@@ -277,7 +297,8 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
             _configuration.Lifes = 1;
             _character = new PlayerCharacter(
                 _fakeLogger, _pauseSerivceMock.Object,
-                _physicsServiceMock.Object, _configuration);
+                _physicsServiceMock.Object, _registerService,
+                _configuration);
             var died = false;
             _character.Died += () => died = true;
             WaitForFall(_character);
