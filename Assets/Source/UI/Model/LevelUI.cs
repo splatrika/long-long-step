@@ -13,6 +13,8 @@ namespace Splatrika.LongLongStep
         private ILevelService _levelService { get; }
         private IPlayerCharacter _playerCharacter { get; }
         private IPauseControlService _pauseService { get; }
+        private ILevelsManagementService _levelsManagementService { get; }
+        private IScenesService _scenesService { get; }
 
         public event Action ShowedCompleted;
         public event Action ShowedFailed;
@@ -27,7 +29,9 @@ namespace Splatrika.LongLongStep
         public LevelUI(
             ILevelService levelService,
             IObjectProviderService<IPlayerCharacter> playerProvider,
-            IPauseControlService pauseService)
+            IPauseControlService pauseService,
+            ILevelsManagementService levelsService,
+            IScenesService scenesService)
         {
             _levelService = levelService;
             _playerCharacter = playerProvider.Object;
@@ -38,6 +42,8 @@ namespace Splatrika.LongLongStep
             _playerCharacter.Damaged += OnPlayerDamaget;
 
             MaxLifes = _playerCharacter.Lifes;
+            _levelsManagementService = levelsService;
+            _scenesService = scenesService;
         }
 
 
@@ -86,6 +92,44 @@ namespace Splatrika.LongLongStep
                 return;
             }
             _playerCharacter.StartRotation(1);
+        }
+
+
+        public void Exit()
+        {
+            _scenesService.Load(Scenes.LevelSelect);
+        }
+
+
+        public void GiveUp()
+        {
+            Exit();
+        }
+
+
+        public void Continue()
+        {
+            if (_levelsManagementService.HasNext())
+            {
+                _levelsManagementService.TryLoadNext();
+            }
+            else
+            {
+                Exit();
+            }
+        }
+
+
+        public void Restart()
+        {
+            _levelsManagementService.Load(
+                _levelsManagementService.Current.Id);
+        }
+
+
+        public void TryAgain()
+        {
+            Restart();
         }
 
 

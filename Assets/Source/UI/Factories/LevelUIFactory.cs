@@ -25,6 +25,21 @@ namespace Splatrika.LongLongStep
         private Button _unpause;
 
         [SerializeField]
+        private Button _continue;
+
+        [SerializeField]
+        private Button _exit;
+
+        [SerializeField]
+        private Button _restart;
+
+        [SerializeField]
+        private Button _tryAgain;
+
+        [SerializeField]
+        private Button _giveUp;
+
+        [SerializeField]
         private HealthBar _healthBar;
 
         [SerializeField]
@@ -34,12 +49,11 @@ namespace Splatrika.LongLongStep
         private string _rightInputButton;
 
 
-
         protected override void SetupPresenter(LevelUIPresenter presenter)
         {
             presenter.Init(_pauseMenu, _levelCompleteMenu, _levelFailMenu,
-                _pause, _unpause, _healthBar, _leftInputButton,
-                _rightInputButton);
+                _pause, _unpause, _continue, _exit, _restart, _tryAgain,
+                _giveUp, _healthBar, _leftInputButton, _rightInputButton);
         }
     }
 }

@@ -11,6 +11,11 @@ namespace Splatrika.LongLongStep
         private CanvasGroup _levelFailMenu;
         private Button _pause;
         private Button _unpause;
+        private Button _continue;
+        private Button _exit;
+        private Button _restart;
+        private Button _tryAgain;
+        private Button _giveUp;
         private HealthBar _healthBar;
         private string _leftInputButton;
         private string _rightInputButton;
@@ -22,6 +27,11 @@ namespace Splatrika.LongLongStep
             CanvasGroup levelFailMenu,
             Button pause,
             Button unpause,
+            Button @continue,
+            Button exit,
+            Button restart,
+            Button tryAgain,
+            Button giveUp,
             HealthBar healthBar,
             string leftInputButton,
             string rightInputButton)
@@ -31,6 +41,11 @@ namespace Splatrika.LongLongStep
             _levelFailMenu = levelFailMenu;
             _pause = pause;
             _unpause = unpause;
+            _continue = @continue;
+            _exit = exit;
+            _restart = restart;
+            _tryAgain = tryAgain;
+            _giveUp = giveUp;
             _healthBar = healthBar;
             _leftInputButton = leftInputButton;
             _rightInputButton = rightInputButton;
@@ -52,6 +67,11 @@ namespace Splatrika.LongLongStep
 
             _pause.onClick.AddListener(OnPauseClick);
             _unpause.onClick.AddListener(OnUnpaseClick);
+            _continue.onClick.AddListener(OnContinueClick);
+            _exit.onClick.AddListener(OnExitClick);
+            _restart.onClick.AddListener(OnRestartClick);
+            _tryAgain.onClick.AddListener(OnTryAgainClick);
+            _giveUp.onClick.AddListener(OnGiveUpClick);
         }
 
 
@@ -98,6 +118,36 @@ namespace Splatrika.LongLongStep
         private void OnUnpaseClick()
         {
             TypedModel.Unpause();
+        }
+
+
+        private void OnGiveUpClick()
+        {
+            TypedModel.GiveUp();
+        }
+
+
+        private void OnExitClick()
+        {
+            TypedModel.Exit();
+        }
+
+
+        private void OnRestartClick()
+        {
+            TypedModel.Restart();
+        }
+
+
+        private void OnTryAgainClick()
+        {
+            TypedModel.TryAgain();
+        }
+
+
+        private void OnContinueClick()
+        {
+            TypedModel.Continue();
         }
 
 
