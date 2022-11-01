@@ -25,7 +25,16 @@ namespace Splatrika.LongLongStep.Scene
 
         public void Load(int id)
         {
-            throw new System.NotImplementedException();
+            if (!_repository.Contains(id))
+            {
+                _logger.LogError(nameof(LevelsManagementService),
+                    $"{nameof(Load)}: " +
+                    $"There is no level with id {id}");
+                return;
+            }
+            var info = _repository.Get(id);
+            _scenesService.Load(info.Scene);
+            Current = info;
         }
 
 
