@@ -17,6 +17,10 @@ namespace Splatrika.LongLongStep.Scene
             Container.Bind<ILogger>()
                 .FromInstance(logger);
 
+            Container.Bind<IScenesService>()
+                .To<ScenesService>()
+                .AsSingle();
+
             if (!_levelsRepository)
             {
                 logger.LogError(nameof(AppInstaller),
