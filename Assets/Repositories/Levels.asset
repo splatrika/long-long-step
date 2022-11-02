@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Levels
   m_EditorClassIdentifier: 
   _levels:
-  - Scene: SampleScene
-  - Scene: SampleScene
+  - Scene: Level0
+  - Scene: Level1
+  - Scene: Level2
