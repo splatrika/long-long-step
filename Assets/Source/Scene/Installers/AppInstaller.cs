@@ -25,6 +25,34 @@ namespace Splatrika.LongLongStep.Scene
                 .To<LevelsManagementService>()
                 .AsSingle();
 
+            Container.Bind<IUrlService>()
+                .To<UrlService>()
+                .AsSingle();
+
+            AddApplicationSettings(Container, logger);
+            AddLevelsRepository(Container, logger);
+        }
+
+
+        private void AddApplicationSettings(
+            DiContainer container, ILogger logger)
+        {
+            var applicationSettings =
+                Resources.Load<ApplictionSettings>("ApplictionSettings");
+            if (!applicationSettings)
+            {
+                logger.LogError(nameof(AppInstaller),
+                    "There is no ApplicationSettings.asset in resources " +
+                    "folder");
+            }
+            container.Bind<ApplicationConfiguration>()
+                .FromInstance(applicationSettings.GetConfiguration());
+        }
+
+
+        private void AddLevelsRepository(
+            DiContainer container, ILogger logger)
+        {
             if (!_levelsRepository)
             {
                 logger.LogError(nameof(AppInstaller),
@@ -32,8 +60,7 @@ namespace Splatrika.LongLongStep.Scene
                     "project context");
                 Application.Quit();
             }
-
-            Container.Bind<ILevelsRepositoryService>()
+            container.Bind<ILevelsRepositoryService>()
                 .FromInstance(_levelsRepository);
         }
     }
