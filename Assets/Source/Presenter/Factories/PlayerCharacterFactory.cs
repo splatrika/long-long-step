@@ -20,6 +20,9 @@ namespace Splatrika.LongLongStep.Presenter
         [SerializeField]
         private Transform _stepTarget;
 
+        [SerializeField]
+        private Rigidbody _rigidbody;
+
         [Header("Model")]
 
         [SerializeField]
@@ -68,7 +71,8 @@ namespace Splatrika.LongLongStep.Presenter
 
         protected override void SetupPresenter(PlayerCharacterPresenter presenter)
         {
-            presenter.Init(_logger, _firstFoot, _secondFoot, _stepTarget);
+            presenter.Init(_logger, _firstFoot, _secondFoot, _stepTarget,
+                _rigidbody);
         }
     }
 }

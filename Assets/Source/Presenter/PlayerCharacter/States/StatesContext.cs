@@ -9,6 +9,8 @@ namespace Splatrika.LongLongStep.Presenter.PlayerCharacterPresenterStates
         public PlayerCharacter Model => _getModel.Invoke();
         public Transform[] Foots => _getFoots.Invoke();
         public Transform StepTarget => _getStepTarget.Invoke();
+        public Rigidbody Rigidbody => _getRigidbody.Invoke();
+        public Transform SelfTransform => _getSelfTransform.Invoke();
         public int SteppingFoot
         {
             get => _getSteppingFoot.Invoke();
@@ -22,6 +24,8 @@ namespace Splatrika.LongLongStep.Presenter.PlayerCharacterPresenterStates
         private Func<Transform[]> _getFoots;
         private Func<Transform> _getStepTarget;
         private Func<int> _getSteppingFoot;
+        private Func<Rigidbody> _getRigidbody;
+        private Func<Transform> _getSelfTransform;
         private Action<int> _setSteppingFoot;
 
 
@@ -31,6 +35,8 @@ namespace Splatrika.LongLongStep.Presenter.PlayerCharacterPresenterStates
             Func<Transform[]> getFoots,
             Func<Transform> getStepTarget,
             Func<int> getSteppingFoot,
+            Func<Rigidbody> getRigidbody,
+            Func<Transform> getSelfTransform,
             Action<int> setSteppingFoot)
         {
             _switchState = switchState;
@@ -38,6 +44,8 @@ namespace Splatrika.LongLongStep.Presenter.PlayerCharacterPresenterStates
             _getFoots = getFoots;
             _getStepTarget = getStepTarget;
             _getSteppingFoot = getSteppingFoot;
+            _getRigidbody = getRigidbody;
+            _getSelfTransform = getSelfTransform;
             _setSteppingFoot = setSteppingFoot;
         }
 

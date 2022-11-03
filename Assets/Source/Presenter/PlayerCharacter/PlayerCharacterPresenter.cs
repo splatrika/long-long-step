@@ -28,7 +28,8 @@ namespace Splatrika.LongLongStep.Presenter
             ILogger logger,
             Transform firstFoot,
             Transform secondFoot,
-            Transform stepTarget)
+            Transform stepTarget,
+            Rigidbody rigidbody)
         {
             _logger = logger;
             _stepTarget = stepTarget;
@@ -36,9 +37,12 @@ namespace Splatrika.LongLongStep.Presenter
 
             _steppingFoot = 0;
 
+            rigidbody.isKinematic = true;
+
             var statesContext = new StatesContext(
                 SwitchState, () => TypedModel,
                 () => _foots, () => stepTarget, () => _steppingFoot,
+                () => rigidbody, () => transform,
                 SetSteppingFoot);
 
             CreateStates(statesContext);
