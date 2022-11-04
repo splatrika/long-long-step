@@ -26,6 +26,10 @@ namespace Splatrika.LongLongStep.Scene
                 .BindInterfacesTo<ObjectProviderService<IPlayerCharacter>>()
                 .AsSingle();
 
+            Container.Bind<ITimeService>()
+                .To<TimeService>()
+                .AsSingle();
+
             Container.BindInterfacesTo<Level>()
                 .AsSingle();
 
