@@ -9,6 +9,7 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
         private Level _level;
         private Mock<IPlayerCharacter> _playerCharacterMock;
         private Mock<IObjectProviderService<IPlayerCharacter>> _providerMock;
+        private ITimeService _timeService;
 
 
         [SetUp]
@@ -16,7 +17,8 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
         {
             _playerCharacterMock = new Mock<IPlayerCharacter>();
             _providerMock = new Mock<IObjectProviderService<IPlayerCharacter>>();
-            _level = new Level(_providerMock.Object);
+            _timeService = new Mock<ITimeService>().Object;
+            _level = new Level(_providerMock.Object, _timeService);
 
             _providerMock.Raise(x => x.Ready += null,
                 _playerCharacterMock.Object);

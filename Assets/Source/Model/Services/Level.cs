@@ -7,15 +7,20 @@ namespace Splatrika.LongLongStep.Model
         private State _state;
         private IPlayerCharacter _playerCharacter;
         private IObjectProviderService<IPlayerCharacter> _playerProvider;
+        private ITimeService _timeService;
+        private bool _playerFalled;
 
         public event Action Completed;
         public event Action Failed;
 
 
         public Level(
-            IObjectProviderService<IPlayerCharacter> playerProvider)
+            IObjectProviderService<IPlayerCharacter> playerProvider,
+            ITimeService timeService)
         {
             _playerProvider = playerProvider;
+            _timeService = timeService;
+
             _playerProvider.Ready += OnPlayerReady;
 
             _state = State.Gameplay;
@@ -43,11 +48,29 @@ namespace Splatrika.LongLongStep.Model
         }
 
 
+        private void OnPlayerFalled()
+        {
+            _playerFalled = true;
+        }
+
+
+        private void OnPlayerStartedStep()
+        {
+            if (_playerFalled)
+            {
+                _playerFalled = false;
+                _timeService.RevertToPreviousAction();
+            }
+        }
+
+
         private void OnPlayerReady(IPlayerCharacter playerCharacter)
         {
             _playerCharacter = playerCharacter;
             _playerCharacter.Died += OnPlayerDied;
             _playerCharacter.TouchedGround += OnPlayerTouchedGround;
+            _playerCharacter.Falled += OnPlayerFalled;
+            _playerCharacter.StepStarted += OnPlayerStartedStep;
         }
 
 
@@ -57,6 +80,8 @@ namespace Splatrika.LongLongStep.Model
             {
                 _playerCharacter.Died -= OnPlayerDied;
                 _playerCharacter.TouchedGround -= OnPlayerTouchedGround;
+                _playerCharacter.Falled -= OnPlayerFalled;
+                _playerCharacter.StepStarted -= OnPlayerStartedStep;
             }
             _playerProvider.Ready -= OnPlayerReady;
         }
