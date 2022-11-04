@@ -159,7 +159,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 0ff70d1778ffc4cf783db416c9e3a130, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -209,5 +209,3 @@ MonoBehaviour:
   _anchor: {fileID: 3693204943427251369}
   _pointA: {fileID: 939170267481369630}
   _pointB: {fileID: 3374854175328263973}
-  _waitTime: 1
-  _speed: 1
