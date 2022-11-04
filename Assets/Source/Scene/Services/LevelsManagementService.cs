@@ -57,7 +57,7 @@ namespace Splatrika.LongLongStep.Scene
             }
             var next = Current.Id + 1;
             var info = _repository.Get(next);
-            _scenesService.Load(info.Scene);
+            Load(next);
         }
 
 
