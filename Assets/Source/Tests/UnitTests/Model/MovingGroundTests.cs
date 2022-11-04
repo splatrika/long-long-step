@@ -10,6 +10,7 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
         private MovingGround _ground;
         private MovingGroundConfiguration _configuration;
         private Mock<IPauseService> _pauseServiceMock;
+        private ITimeService _timeService;
         private float _timeToMove;
 
 
@@ -17,6 +18,7 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
         public void Init()
         {
             _pauseServiceMock = new Mock<IPauseService>();
+            _timeService = new Mock<ITimeService>().Object;
             _configuration = new MovingGroundConfiguration(
                 pointA: Vector3.right,
                 pointB: Vector3.left,
@@ -24,7 +26,7 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
                 waitTime: 5,
                 waitAtStart: false);
             _ground = new MovingGround(_pauseServiceMock.Object,
-                _configuration);
+                _timeService, _configuration);
 
             _timeToMove = _configuration.MovementDuration;
         }
@@ -91,8 +93,8 @@ namespace Splatrika.LongLongStep.Tests.UnitTests
         public void ShouldWaitAtStartIfItIsEnabled()
         {
             _configuration.WaitAtStart = true;
-            _ground = new MovingGround(
-                _pauseServiceMock.Object, _configuration);
+            _ground = new MovingGround(_pauseServiceMock.Object,
+                _timeService, _configuration);
             var lastAnchor = _ground.Anchor;
             _ground.Update(_configuration.WaitTime / 2);
             _ground.Update(_configuration.WaitTime / 2);

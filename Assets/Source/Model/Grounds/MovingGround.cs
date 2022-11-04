@@ -1,9 +1,11 @@
+using System;
 using Splatrika.LongLongStep.Architecture;
 using UnityEngine;
 
 namespace Splatrika.LongLongStep.Model
 {
-    public class MovingGround : IGround, IUpdatable
+    public class MovingGround : IGround, IUpdatable, IDisposable,
+        IRevertableAction
     {
         public bool Enabled { get; private set; }
         public Vector3 Anchor { get; private set; }
@@ -13,6 +15,7 @@ namespace Splatrika.LongLongStep.Model
         public float WaitTime { get; }
 
         private IPauseService _pauseService { get; }
+        private ITimeService _timeService { get; }
         private float _waitTimeLeft;
         private float _position;
         private float _positionDirection;
@@ -21,9 +24,11 @@ namespace Splatrika.LongLongStep.Model
 
         public MovingGround(
             IPauseService pauseService,
+            ITimeService timeService,
             MovingGroundConfiguration configuration)
         {
             _pauseService = pauseService;
+            _timeService = timeService;
 
             Enabled = true;
             Anchor = configuration.PointA;
@@ -36,12 +41,43 @@ namespace Splatrika.LongLongStep.Model
             _positionDirection = 1;
             _positionSpeed = 1 / MovementDuration;
             _waitTimeLeft = configuration.WaitAtStart ? WaitTime : 0;
+
+            timeService.Register(this);
+        }
+
+
+        public void Dispose()
+        {
+            _timeService.Unregister(this);
         }
 
 
         public void SetEnabled(bool value)
         {
             Enabled = value;
+        }
+
+
+        public void RevertToPreviousAction()
+        {
+            Vector3 point;
+            if (_positionDirection == -1)
+            {
+                point = PointA;
+                _position = 0;
+            }
+            else if (_positionDirection == 1)
+            {
+                point = PointB;
+                _position = 1;
+            }
+            else
+            {
+                throw new InvalidOperationException("Invalid direction");
+            }
+            _positionDirection *= -1;
+            Anchor = point;
+            _waitTimeLeft = 0;
         }
 
 
