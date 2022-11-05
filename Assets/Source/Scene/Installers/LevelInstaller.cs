@@ -17,7 +17,10 @@ namespace Splatrika.LongLongStep.Scene
         private float _waitTime = 2;
 
 
-        public override void InstallBindings()
+        protected virtual void InstallAdditionalBindings() { }
+
+
+        public override sealed void InstallBindings()
         {
             Container.BindInterfacesTo<PauseService>()
                 .AsSingle();
@@ -37,6 +40,8 @@ namespace Splatrika.LongLongStep.Scene
                 _actionTime, _waitTime);
             Container.Bind<LevelConfiguration>()
                 .FromInstance(levelConfiguration);
+
+            InstallAdditionalBindings();
         }
 
 
@@ -45,6 +50,8 @@ namespace Splatrika.LongLongStep.Scene
             base.Start();
             CreateSceneObjects();
             CreateGUI();
+
+            Container.InstantiateComponent<ServicesUpdater>(gameObject);
         }
 
 
