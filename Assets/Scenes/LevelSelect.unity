@@ -209,7 +209,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2898575940129132718, guid: 98ff25122b8854d5a97e8e7426381456, type: 3}
       propertyPath: m_Name
-      value: LevelButton (3)
+      value: LevelButton2
       objectReference: {fileID: 0}
     - target: {fileID: 7685984093259378482, guid: 98ff25122b8854d5a97e8e7426381456, type: 3}
       propertyPath: m_Pivot.x
@@ -414,7 +414,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2898575940129132718, guid: 98ff25122b8854d5a97e8e7426381456, type: 3}
       propertyPath: m_Name
-      value: LevelButton
+      value: LevelButton1
       objectReference: {fileID: 0}
     - target: {fileID: 7685984093259378482, guid: 98ff25122b8854d5a97e8e7426381456, type: 3}
       propertyPath: m_Pivot.x
@@ -798,7 +798,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2898575940129132718, guid: 98ff25122b8854d5a97e8e7426381456, type: 3}
       propertyPath: m_Name
-      value: LevelButton (1)
+      value: LevelButton3
       objectReference: {fileID: 0}
     - target: {fileID: 7685984093259378482, guid: 98ff25122b8854d5a97e8e7426381456, type: 3}
       propertyPath: m_Pivot.x
@@ -993,10 +993,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelButtons:
   - {fileID: 1274463422}
-  - {fileID: 239109814}
-  - {fileID: 150206817}
   - {fileID: 2073548750}
+  - {fileID: 239109814}
   - {fileID: 1398696538}
+  - {fileID: 150206817}
   _previousPage: {fileID: 1984105265}
   _nextPage: {fileID: 2071311382}
 --- !u!114 &1443415731
@@ -1094,7 +1094,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2898575940129132718, guid: 98ff25122b8854d5a97e8e7426381456, type: 3}
       propertyPath: m_Name
-      value: LevelButton (2)
+      value: LevelButton5
       objectReference: {fileID: 0}
     - target: {fileID: 7685984093259378482, guid: 98ff25122b8854d5a97e8e7426381456, type: 3}
       propertyPath: m_Pivot.x
@@ -1312,7 +1312,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2898575940129132718, guid: 98ff25122b8854d5a97e8e7426381456, type: 3}
       propertyPath: m_Name
-      value: LevelButton (4)
+      value: LevelButton4
       objectReference: {fileID: 0}
     - target: {fileID: 7685984093259378482, guid: 98ff25122b8854d5a97e8e7426381456, type: 3}
       propertyPath: m_Pivot.x
