@@ -11,6 +11,7 @@ namespace Splatrika.LongLongStep.Model
         public float? Progress { get; private set; }
         public Vector3 Position { get; private set; }
         public Vector3? StepTarget { get; private set; }
+        public float? StepTargetRadians { get; private set; }
         public int Lifes { get; private set; }
 
         public event Action StepStarted;
@@ -22,10 +23,13 @@ namespace Splatrika.LongLongStep.Model
         public event Action<Vector3?> StepTargetUpdated;
         public event Action<IGround> TouchedGround;
         public event Action Happy;
+        public event Action<int> StartedRotation;
+        public event Action StoppedRotation;
 
         private IGround _ground;
         private State _current;
         private State[] _states;
+        private bool _rotationAllowed;
         private ILogger _logger { get; }
         private IPhysicsService _physicsService { get; }
         private IPauseService _pauseService { get; }
@@ -44,17 +48,20 @@ namespace Splatrika.LongLongStep.Model
 
             var statesContext = new StatesContext(
                 SwitchState, SetProgress, SetPosition, SetStepTarget,
-                SetGround, Damage,
+                SetGround, SetStepTargetRadians, Damage,
                 () => Progress, () => Position, () => StepTarget, () => Lifes,
-                () => _ground,
+                () => _ground, () => _rotationAllowed,
                 () => StepStarted?.Invoke(), () => Wait?.Invoke(),
-                () => Falled?.Invoke(), () => Happy?.Invoke());
+                () => Falled?.Invoke(), () => Happy?.Invoke(),
+                direction => StartedRotation?.Invoke(direction),
+                () => StoppedRotation?.Invoke());
 
             CreateStates(statesContext, configuration);
             statesContext.SwitchState<WaitState>();
 
             Position = configuration.Position;
             Lifes = configuration.Lifes;
+            _rotationAllowed = true;
 
             registerService.Register(this);
         }
@@ -83,6 +90,19 @@ namespace Splatrika.LongLongStep.Model
         public void StopRotation()
         {
             _current.StopRotation();
+        }
+
+
+        public void RestrictRotation()
+        {
+            _current.StopRotation();
+            _rotationAllowed = false;
+        }
+
+
+        public void AllowRotation()
+        {
+            _rotationAllowed = true;
         }
 
 
@@ -151,6 +171,12 @@ namespace Splatrika.LongLongStep.Model
                 SetPosition(_ground.Anchor);
             }
             TouchedGround?.Invoke(ground);
+        }
+
+
+        private void SetStepTargetRadians(float? value)
+        {
+            StepTargetRadians = value;
         }
 
 

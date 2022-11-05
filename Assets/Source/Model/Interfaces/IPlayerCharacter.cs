@@ -8,6 +8,7 @@ namespace Splatrika.LongLongStep.Model
         float? Progress { get; }
         Vector3 Position { get; }
         Vector3? StepTarget { get; }
+        float? StepTargetRadians { get; }
         int Lifes { get; }
 
         event Action StepStarted;
@@ -19,9 +20,13 @@ namespace Splatrika.LongLongStep.Model
         event Action<Vector3?> StepTargetUpdated;
         event Action<IGround> TouchedGround;
         event Action Happy;
+        event Action<int> StartedRotation;
+        event Action StoppedRotation;
 
 
         void StartRotation(int direction);
         void StopRotation();
+        void RestrictRotation();
+        void AllowRotation();
     }
 }

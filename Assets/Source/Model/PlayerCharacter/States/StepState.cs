@@ -36,6 +36,7 @@ namespace Splatrika.LongLongStep.Model.PlayerCharacterStates
 
         public override sealed void OnStart()
         {
+            _rotationDirection = 0;
             _timeLeft = _stepDuration;
             StopRotation();
             UpdateStepTarget();
@@ -49,6 +50,7 @@ namespace Splatrika.LongLongStep.Model.PlayerCharacterStates
             if (_rotationDirection != 0)
             {
                 _rotation += _rotationDirection * _rotationSpeed * deltaTime;
+                Context.StepTargetRadians = _rotation;
                 UpdateStepTarget();
             }
             else if (Context.Ground?.Anchor != _previousAnchor)
@@ -60,6 +62,11 @@ namespace Splatrika.LongLongStep.Model.PlayerCharacterStates
             Context.Progress = 1 - _timeLeft / _stepDuration;
             if (_timeLeft <= 0)
             {
+                if (_rotationDirection != 0)
+                {
+                    Context.RaiseStoppedRotation();
+                }
+                Context.StepTargetRadians = null;
                 if (_physicsService.HasGround(
                     (Vector3)Context.StepTarget, out IGround ground))
                 {
@@ -85,13 +92,18 @@ namespace Splatrika.LongLongStep.Model.PlayerCharacterStates
                     $"1 and -1 can be passed as direction only");
                 return;
             }
-            _rotationDirection = direction;
+            if (Context.RotationAllowed)
+            {
+                _rotationDirection = direction;
+                Context.RaiseStartedRotation(direction);
+            }
         }
 
 
         public override void StopRotation()
         {
             _rotationDirection = 0;
+            Context.RaiseStoppedRotation();
         }
 
 
